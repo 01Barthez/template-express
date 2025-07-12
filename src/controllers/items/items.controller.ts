@@ -24,11 +24,12 @@ const itemsControllers = {
       const { page = 1, limit = 10, name, description } = req.query;
       const skip = (Number(page) - 1) * Number(limit);
 
+      console.log("starting...")
       const whereClause = {
         ...(name && { name: { contains: name as string } }),
         ...(description && { description: { contains: description as string } }),
       };
-
+      console.log("starting... 2")
       const allItems = await prisma.items.findMany({
         where: whereClause,
         skip,
@@ -37,8 +38,9 @@ const itemsControllers = {
           createdAt: "desc",
         },
       });
-
+      console.log("starting... 3")
       const totalItems = await prisma.items.count({ where: whereClause });
+      console.log("starting... 4")
 
       res.status(200).json({
         items: allItems,
