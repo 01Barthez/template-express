@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  api:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=mongodb://db:27017/crud
+    depends_on:
+      - db
+
+volumes:
+  mongo-data:
